@@ -30,13 +30,4 @@ public class BirdSpriteSwapper : MonoBehaviour, IInitializable
 
         _renderer.sprite = _wingsUpSprite;
     }
-
-    #region Testing
-
-    private void Awake()
-    {
-        Initialize();
-    }
-
-    #endregion
 }

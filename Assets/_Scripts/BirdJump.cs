@@ -24,6 +24,7 @@ public class BirdJump : MonoBehaviour, IInitializable
 
         _lastJumpTime = Time.time - _params.BirdJumpCooldown;
         
+        _spriteSwapper.Initialize();
         _spriteSwapper.Construct(_params);
     }
 
@@ -43,15 +44,6 @@ public class BirdJump : MonoBehaviour, IInitializable
             _lastJumpTime = Time.time;
         }
     }
-
-    #region Testing
-
-    private void Awake()
-    {
-        Initialize();
-    }
-
-    #endregion
 }
 
 
