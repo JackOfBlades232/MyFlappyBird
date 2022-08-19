@@ -1,6 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
+using TMPro;
 
 [RequireComponent(typeof(BirdSpriteSwapper))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -11,56 +12,58 @@ public class BirdJump : MonoBehaviour, IInitializable
     private GameParams _params;
 
     private BirdSpriteSwapper _spriteSwapper;
-    
+
+    private GroundStatic _groundStatic;
+
     private Rigidbody2D _rigidbody;
 
     private float _lastJumpTime;
 
     public UnityEvent OnJumpStarted;
 
-    private float AngularVelocityModifier =>
-        _rigidbody.velocity.y > Utils.Precision
-            ? _params.BirdAngularVelocityModifierTop
-            : _params.BirdAngularVelocityModifierBottom;
-
-    private void Update()
-    {
-        SetAngularVelocity();
-    }
+    public UnityEvent OnHitGround;
 
     public void Initialize()
     {
         _spriteSwapper = GetComponent<BirdSpriteSwapper>();
         _rigidbody = GetComponent<Rigidbody2D>();
-
-        _lastJumpTime = Time.time - _params.BirdJumpCooldown;
         
         _spriteSwapper.Initialize();
         _spriteSwapper.Construct(_params);
+
+        _lastJumpTime = Time.time - _params.BirdJumpCooldown;
+        SetAfterJumpRotate();
     }
 
-    private void SetAngularVelocity()
+    public void Construct(GroundStatic groundStatic) =>
+        _groundStatic = groundStatic;
+    
+    private void SetOnJumpRotate(float appliedImpulse)
     {
-        float angleToRight =
-            Vector2.SignedAngle(Vector2.right, transform.right); 
+        transform.DOKill();
+
+        float riseTime = -appliedImpulse * _rigidbody.mass / Physics.gravity.y;
         
-        Debug.Log(angleToRight);
+        Vector3 finalRotation =
+            new Vector3(0, 0, _params.BirdRotationCeil);
 
-        if (angleToRight < -Utils.StraightAngle ||
-            angleToRight > _params.BirdRotationCeil)
-        {
-            _rigidbody.angularVelocity = 0;
+        transform.DORotate(finalRotation, riseTime)
+            .OnComplete(SetAfterJumpRotate);
+    }
 
-            float desiredAngle = angleToRight > 0
-                ? _params.BirdRotationCeil - Utils.Precision
-                : -Utils.StraightAngle + Utils.Precision;
+    private void SetAfterJumpRotate()
+    {
+        transform.DOKill();
 
-            transform.right =
-                Quaternion.Euler(0, 0, desiredAngle) * Vector3.right;
-        }
-        else
-            _rigidbody.angularVelocity =
-                _rigidbody.velocity.y * AngularVelocityModifier;
+        float acceleration = -Physics.gravity.y / _rigidbody.mass;
+        float fallDistance =
+            Mathf.Max(transform.position.y - _groundStatic.UpperBoundY, 0);
+        float fallTime = Mathf.Sqrt(2 * fallDistance / acceleration);
+
+        Vector3 finalRotation = new Vector3(0, 0, -Utils.StraightAngle);
+
+        transform.DORotate(finalRotation, fallTime)
+            .OnComplete(() => OnHitGround?.Invoke());
     }
 
     public void PerformJump()
@@ -72,8 +75,11 @@ public class BirdJump : MonoBehaviour, IInitializable
             OnJumpStarted?.Invoke();
             
             _rigidbody.velocity = Vector2.zero;
-            
-            _rigidbody.AddForce(_params.BirdJumpImpulse, ForceMode2D.Impulse);
+
+            Vector3 impulse = _params.BirdJumpImpulse;
+            _rigidbody.AddForce(impulse, ForceMode2D.Impulse);
+
+            SetOnJumpRotate(impulse.y);
 
             _lastJumpTime = Time.time;
         }

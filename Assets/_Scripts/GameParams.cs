@@ -10,10 +10,6 @@ public class GameParams : ScriptableObject
     private float _birdJumpImpulse;
 
     [SerializeField]
-    private float _birdAngularVelocityModifierTop,
-        _birdAngularVelocityModifierBottom;
-
-    [SerializeField]
     private float _birdRotationCeil;
 
     [SerializeField]
@@ -23,10 +19,6 @@ public class GameParams : ScriptableObject
     private float _birdWingsDownFrameDuration;
 
     public Vector2 BirdJumpImpulse => Vector2.up * _birdJumpImpulse;
-    public float BirdAngularVelocityModifierBottom =>
-        _birdAngularVelocityModifierBottom;
-    public float BirdAngularVelocityModifierTop =>
-        _birdAngularVelocityModifierTop;
     public float BirdRotationCeil => _birdRotationCeil;
     public float BirdJumpCooldown => _birdJumpCooldown;
     public float BirdWingsDownFrameDuration => _birdWingsDownFrameDuration;

@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: GameParamsPreset
   m_EditorClassIdentifier: 
   _birdJumpImpulse: 6
-  _birdAngularVelocityModifierTop: 30
-  _birdAngularVelocityModifierBottom: 50
-  _birdRotationCeil: 60
+  _birdRotationCeil: 40
   _birdJumpCooldown: 0.3
   _birdWingsDownFrameDuration: 0.35
