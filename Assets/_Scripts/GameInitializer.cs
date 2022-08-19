@@ -2,20 +2,12 @@
 
 public class GameInitializer : MonoBehaviour
 {
-    [SerializeField]
-    private BoxCollider2D _groundStatic;
-    
-    private PlayerFacade _player;
+    private GameManager _gameManager;
 
     private void Awake()
     {
-        _player = FindObjectOfType<PlayerFacade>();
-
-        InitializeAll();
-    }
-
-    private void InitializeAll()
-    {
-        _player.Initialize();
+        _gameManager = FindObjectOfType<GameManager>();
+        
+        _gameManager.Initialize();
     }
 }

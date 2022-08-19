@@ -16,3 +16,6 @@ MonoBehaviour:
   _birdRotationCeil: 40
   _birdJumpCooldown: 0.3
   _birdWingsDownFrameDuration: 0.35
+  _pipeSpawnBaseCooldown: 3
+  _pipeTravelDistance: 10
+  _pipeBaseVelocity: 1

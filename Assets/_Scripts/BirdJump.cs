@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
@@ -7,7 +8,6 @@ using TMPro;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BirdJump : MonoBehaviour, IInitializable
 {
-    // TODO : pass from initializer
     [SerializeField]
     private GameParams _params;
 
@@ -19,17 +19,21 @@ public class BirdJump : MonoBehaviour, IInitializable
 
     private float _lastJumpTime;
 
+    private bool _jumpBlocked;
+
     public UnityEvent OnJumpStarted;
 
-    public UnityEvent OnHitGround;
+    public UnityEvent OnReachedGround;
 
     public void Initialize()
     {
         _spriteSwapper = GetComponent<BirdSpriteSwapper>();
         _rigidbody = GetComponent<Rigidbody2D>();
         
-        _spriteSwapper.Initialize();
         _spriteSwapper.Construct(_params);
+        _spriteSwapper.Initialize();
+        
+        OnReachedGround.AddListener(BlockJump);
 
         _lastJumpTime = Time.time - _params.BirdJumpCooldown;
         SetAfterJumpRotate();
@@ -63,11 +67,24 @@ public class BirdJump : MonoBehaviour, IInitializable
         Vector3 finalRotation = new Vector3(0, 0, -Utils.StraightAngle);
 
         transform.DORotate(finalRotation, fallTime)
-            .OnComplete(() => OnHitGround?.Invoke());
+            .OnComplete(() => OnReachedGround?.Invoke());
+    }
+
+    private void BlockJump()
+    {
+        if (_jumpBlocked)
+            return;
+        
+        _jumpBlocked = true;
+        
+        _rigidbody.velocity = Vector2.zero;
     }
 
     public void PerformJump()
     {
+        if (_jumpBlocked)
+            return;
+        
         float timeSinceJump = Time.time - _lastJumpTime;
 
         if (timeSinceJump >= _params.BirdJumpCooldown)
@@ -83,5 +100,15 @@ public class BirdJump : MonoBehaviour, IInitializable
 
             _lastJumpTime = Time.time;
         }
+    }
+
+    public void Kill()
+    {
+        if (_jumpBlocked)
+            return;
+        
+        BlockJump();
+
+        SetAfterJumpRotate();
     }
 }
