@@ -167,7 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5c77c600184e6db2ecab719f6cb87b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _params: {fileID: 11400000, guid: b7556be8a794a8b42aa7625d63ba36cd, type: 2}
   _pipeSetPrefab: {fileID: 7926067639611332157, guid: aa07049fa4d5a2e4080e7b79a2564cbc, type: 3}
 --- !u!1 &191558882
 GameObject:
@@ -929,6 +928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5eb88eb8204d789e062666c7f4628b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _params: {fileID: 11400000, guid: b7556be8a794a8b42aa7625d63ba36cd, type: 2}
 --- !u!4 &1852540076
 Transform:
   m_ObjectHideFlags: 0

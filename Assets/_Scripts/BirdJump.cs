@@ -8,9 +8,8 @@ using TMPro;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BirdJump : MonoBehaviour, IInitializable
 {
-    [SerializeField]
     private GameParams _params;
-
+    
     private BirdSpriteSwapper _spriteSwapper;
 
     private GroundStatic _groundStatic;
@@ -39,8 +38,11 @@ public class BirdJump : MonoBehaviour, IInitializable
         SetAfterJumpRotate();
     }
 
-    public void Construct(GroundStatic groundStatic) =>
+    public void Construct(GameParams gameParams, GroundStatic groundStatic)
+    {
+        _params = gameParams;
         _groundStatic = groundStatic;
+    }
     
     private void SetOnJumpRotate(float appliedImpulse)
     {

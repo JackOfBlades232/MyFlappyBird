@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class PipeSpawner : MonoBehaviour, IInitializable
 {
-    [SerializeField]
-    private GameParams _params;
-    
     // TODO : Refactor this?
     [SerializeField]
     private GameObject _pipeSetPrefab;
@@ -15,15 +12,24 @@ public class PipeSpawner : MonoBehaviour, IInitializable
     // TODO : refactor with pool
     private readonly List<PipeSet> _spawnedPipes = new();
 
+    private GameParams _params;
+
     private ScoreManager _scoreManager;
+
+    private DifficultyState _difficultyState;
 
     public void Initialize()
     {
         StartCoroutine(DoSpawnPipes());
     }
 
-    public void Construct(ScoreManager scoreManager) =>
+    public void Construct(GameParams gameParams, ScoreManager scoreManager,
+        DifficultyState difficultyState)
+    {
+        _params = gameParams;
         _scoreManager = scoreManager;
+        _difficultyState = difficultyState;
+    }
 
     private IEnumerator DoSpawnPipes()
     {
@@ -32,13 +38,20 @@ public class PipeSpawner : MonoBehaviour, IInitializable
             PipeSet pipeSet =
                 Instantiate(_pipeSetPrefab, transform.position,
                     Quaternion.identity).GetComponent<PipeSet>();
+
+            pipeSet.Construct(
+                _params,
+                this,
+                _difficultyState.PipeLifetime,
+                _difficultyState.GetNextPipeSetY(),
+                _difficultyState.GetNextPipeSpace()
+            );
             
-            pipeSet.Construct(this);
             pipeSet.Initialize();
             
             _spawnedPipes.Add(pipeSet);
 
-            yield return new WaitForSeconds(_params.PipeSpawnBaseCooldown);
+            yield return new WaitForSeconds(_difficultyState.PipeSpawnCooldown);
         }   
     }
 

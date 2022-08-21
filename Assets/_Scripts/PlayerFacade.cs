@@ -4,6 +4,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(BirdJump))]
 public class PlayerFacade : MonoBehaviour, IInitializable
 {
+    private GameParams _params;
+    
     private PipeSpawner _pipeSpawner;
     
     private BirdJump _jumper;
@@ -19,7 +21,7 @@ public class PlayerFacade : MonoBehaviour, IInitializable
         
         _groundStatic.Initialize();
         
-        _jumper.Construct(_groundStatic);
+        _jumper.Construct(_params, _groundStatic);
         _jumper.Initialize();
         
         OnKilled.AddListener(_pipeSpawner.StopAllPipes);
@@ -27,8 +29,11 @@ public class PlayerFacade : MonoBehaviour, IInitializable
         _jumper.OnReachedGround.AddListener(() => OnFallen?.Invoke());
     }
 
-    public void Construct(PipeSpawner pipeSpawner) =>
+    public void Construct(GameParams gameParams, PipeSpawner pipeSpawner)
+    {
+        _params = gameParams;
         _pipeSpawner = pipeSpawner;
+    }
 
     public void Kill()
     {
