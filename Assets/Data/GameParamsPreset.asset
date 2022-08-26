@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd0ae4780dab494d9f63cdaebfddbab, type: 3}
   m_Name: GameParamsPreset
   m_EditorClassIdentifier: 
-  _birdJumpImpulse: 6
-  _birdRotationCeil: 40
-  _birdJumpCooldown: 0.3
+  _birdJumpImpulse: 3
+  _birdRotationCeil: 25
+  _birdJumpCooldown: 0.03
   _birdWingsDownFrameDuration: 0.35
   _tileDespawnX: -6.74
   _pipeSetMinY: -3
   _pipeSetMaxY: 3
-  _maxScoreForIncDifficulty: 200
+  _maxScoreForIncDifficulty: 1000
   _tileBaseVelocity: 2.5
   _tileMaxVelocity: 7
   _pipeSetYBaseDelta: 1

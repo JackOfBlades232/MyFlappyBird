@@ -33,6 +33,8 @@ public class BirdJump : MonoBehaviour, IInitializable
         _spriteSwapper.Initialize();
         
         OnReachedGround.AddListener(BlockJump);
+        
+        _jumpBlocked = false;
 
         _lastJumpTime = Time.time - _params.BirdJumpCooldown;
         SetAfterJumpRotate();

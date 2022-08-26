@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IInitializable
 {
     private GameParams _params;
 
+    private EndgameUI _endgameUI;
+
     private PlayerFacade _player;
     private TileSpawner _tileSpawner;
     private ScoreManager _scoreManager;
+
+    public UnityEvent OnGameEnded;
 
     public void Initialize()
     {
@@ -20,6 +25,13 @@ public class GameManager : MonoBehaviour, IInitializable
 
     public void Construct(GameParams gameParams) => _params = gameParams;
 
+    public void StartGame()
+    {
+        Utils.Unpause();
+        
+        _player.Activate();  
+    } 
+    
     private void InitializeAll()
     {
         _player.Construct(_params, _tileSpawner);
@@ -29,13 +41,6 @@ public class GameManager : MonoBehaviour, IInitializable
         _tileSpawner.Initialize();
         _scoreManager.Initialize();
         
-        _player.OnFallen.AddListener(OnPlayerDeath);
-    }
-
-    private void OnPlayerDeath()
-    {
-        // TODO : implement death logic
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        _player.OnFallen.AddListener(() => OnGameEnded?.Invoke());
     }
 }

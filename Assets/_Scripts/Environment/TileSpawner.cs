@@ -9,6 +9,8 @@ public class TileSpawner : MonoBehaviour, IInitializable
     [SerializeField]
     private Tile _initTilePrefab, _pipeTilePrefab;
 
+    private const float SpawnIntervalReduction = 0.02f;
+
     // TODO : refactor with pool
     private readonly List<Tile> _spawnedTiles = new();
 
@@ -19,7 +21,8 @@ public class TileSpawner : MonoBehaviour, IInitializable
     private DifficultyState _difficultyState;
 
     private float TileSpawnInterval =>
-        _pipeTilePrefab.Width / _difficultyState.TileVelocity;
+        _pipeTilePrefab.Width / _difficultyState.TileVelocity -
+        SpawnIntervalReduction;
 
     public void Initialize()
     {
@@ -55,8 +58,6 @@ public class TileSpawner : MonoBehaviour, IInitializable
             Tile tile =
                 Instantiate(_pipeTilePrefab, transform.position,
                     Quaternion.identity).GetComponent<Tile>();
-
-            Debug.Log(1);
 
             InitializeTile(tile);
 
