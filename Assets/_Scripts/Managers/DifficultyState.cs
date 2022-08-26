@@ -5,31 +5,27 @@ public class DifficultyState : IInitializable
 {
     private GameParams _params;
     
-    private float _pipeVelocity;
     private float _pipeSetYDelta;
     private float _pipeAvgSpace;
 
     private IEnumerator<float> _pipeSetYGenerator;
 
-    public float PipeLifetime => _params.PipeTravelDistance / _pipeVelocity;
-    public float PipeSpawnCooldown { get; private set; }
+    public float TileVelocity { get; private set; }
 
     public void Initialize()
     {
-        _pipeVelocity = _params.PipeBaseVelocity;
+        TileVelocity = _params.TileBaseVelocity;
         _pipeSetYDelta = _params.PipeSetYBaseDelta;
         _pipeAvgSpace = _params.PipeBaseAvgSpace;
 
         _pipeSetYGenerator = GetPipeSetYGenerator();
-        
-        PipeSpawnCooldown = _params.PipeSpawnBaseCooldown;
     }
 
     public void Construct(GameParams gameParams) => _params = gameParams;
 
     #region DifficultyIncrease
 
-    public void OnScoreIncremented()
+    public void OnPipePassed()
     {
         IncreaseDifficultyByOnePoint();
         TruncateDifficulty();
@@ -37,18 +33,14 @@ public class DifficultyState : IInitializable
 
     private void IncreaseDifficultyByOnePoint()
     {
-        _pipeVelocity += _params.PipeVelocityIncPerPoint;
-        PipeSpawnCooldown -= _params.PipeSpawnCooldownDecPerPoint;
+        TileVelocity += _params.TileVelocityIncPerPoint;
         _pipeSetYDelta += _params.PipeSetYDeltaIncPerPoint;
         _pipeAvgSpace -= _params.PipeAvgSpaceDecPerPoint;
     }
 
     private void TruncateDifficulty()
     {
-        _pipeVelocity = Mathf.Min(_pipeVelocity, _params.PipeMaxVelocity);
-        PipeSpawnCooldown =
-            Mathf.Max(PipeSpawnCooldown, _params.PipeSpawnMinCooldown);
-        
+        TileVelocity = Mathf.Min(TileVelocity, _params.TileMaxVelocity);
         _pipeSetYDelta = Mathf.Min(_pipeSetYDelta, _params.PipeSetYMaxDelta);
         _pipeAvgSpace = Mathf.Max(_pipeAvgSpace, _params.PipeMinAvgSpace);
     }

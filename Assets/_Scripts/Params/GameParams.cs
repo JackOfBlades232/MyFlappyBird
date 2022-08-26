@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(
     fileName = "New GameParams",
@@ -21,7 +22,7 @@ public class GameParams : ScriptableObject
 
     [Header("Pipe spawning")]
     [SerializeField]
-    private float _pipeTravelDistance;
+    private float _tileDespawnX;
 
     [SerializeField]
     private float _pipeSetMinY, _pipeSetMaxY;
@@ -31,10 +32,7 @@ public class GameParams : ScriptableObject
     private float _maxScoreForIncDifficulty;
     
     [SerializeField]
-    private float _pipeBaseVelocity, _pipeMaxVelocity;
-
-    [SerializeField]
-    private float _pipeSpawnBaseCooldown, _pipeSpawnMinCooldown;
+    private float _tileBaseVelocity, _tileMaxVelocity; // 1 4
 
     [SerializeField]
     private float _pipeSetYBaseDelta, _pipeSetYMaxDelta;
@@ -50,19 +48,14 @@ public class GameParams : ScriptableObject
     public float BirdJumpCooldown => _birdJumpCooldown;
     public float BirdWingsDownFrameDuration => _birdWingsDownFrameDuration;
     
-    public float PipeTravelDistance => _pipeTravelDistance;
+    public float TileDespawnX => _tileDespawnX;
     public float PipeSetMinY => _pipeSetMinY;
     public float PipeSetMaxY => _pipeSetMaxY;
 
-    public float PipeBaseVelocity => _pipeBaseVelocity;
-    public float PipeMaxVelocity => _pipeMaxVelocity;
-    public float PipeVelocityIncPerPoint =>
-        (_pipeMaxVelocity - _pipeBaseVelocity) / _maxScoreForIncDifficulty;
-    public float PipeSpawnBaseCooldown => _pipeSpawnBaseCooldown;
-    public float PipeSpawnMinCooldown => _pipeSpawnMinCooldown;
-    public float PipeSpawnCooldownDecPerPoint =>
-        (_pipeSpawnBaseCooldown - _pipeSpawnMinCooldown) /
-        _maxScoreForIncDifficulty;
+    public float TileBaseVelocity => _tileBaseVelocity;
+    public float TileMaxVelocity => _tileMaxVelocity;
+    public float TileVelocityIncPerPoint =>
+        (_tileMaxVelocity - _tileBaseVelocity) / _maxScoreForIncDifficulty;
     public float PipeSetYBaseDelta => _pipeSetYBaseDelta;
     public float PipeSetYMaxDelta => _pipeSetYMaxDelta;
     public float PipeSetYDeltaIncPerPoint =>

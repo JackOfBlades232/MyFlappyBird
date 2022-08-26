@@ -6,17 +6,14 @@ public class GameManager : MonoBehaviour, IInitializable
     private GameParams _params;
 
     private PlayerFacade _player;
-    private PipeSpawner _pipeSpawner;
+    private TileSpawner _tileSpawner;
     private ScoreManager _scoreManager;
-    private DifficultyState _difficultyState;
 
     public void Initialize()
     {
         _player = FindObjectOfType<PlayerFacade>();
-        _pipeSpawner = FindObjectOfType<PipeSpawner>();
+        _tileSpawner = FindObjectOfType<TileSpawner>();
         _scoreManager = FindObjectOfType<ScoreManager>();
-
-        _difficultyState = new DifficultyState();
 
         InitializeAll();
     }
@@ -25,19 +22,14 @@ public class GameManager : MonoBehaviour, IInitializable
 
     private void InitializeAll()
     {
-        _player.Construct(_params, _pipeSpawner);
-        _difficultyState.Construct(_params);
-        _pipeSpawner.Construct(_params, _scoreManager, _difficultyState);
+        _player.Construct(_params, _tileSpawner);
+        _tileSpawner.Construct(_params, _scoreManager);
         
         _player.Initialize();
-        _difficultyState.Initialize();
-        _pipeSpawner.Initialize();
+        _tileSpawner.Initialize();
         _scoreManager.Initialize();
         
         _player.OnFallen.AddListener(OnPlayerDeath);
-
-        _scoreManager.OnScoreChanged.AddListener(_ =>
-            _difficultyState.OnScoreIncremented());
     }
 
     private void OnPlayerDeath()

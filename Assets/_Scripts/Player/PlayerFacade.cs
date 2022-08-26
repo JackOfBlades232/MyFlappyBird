@@ -6,7 +6,7 @@ public class PlayerFacade : MonoBehaviour, IInitializable
 {
     private GameParams _params;
     
-    private PipeSpawner _pipeSpawner;
+    private TileSpawner _tileSpawner;
     
     private BirdJump _jumper;
 
@@ -24,15 +24,15 @@ public class PlayerFacade : MonoBehaviour, IInitializable
         _jumper.Construct(_params, _groundStatic);
         _jumper.Initialize();
         
-        OnKilled.AddListener(_pipeSpawner.StopAllPipes);
+        OnKilled.AddListener(_tileSpawner.StopAllTiles);
         
         _jumper.OnReachedGround.AddListener(() => OnFallen?.Invoke());
     }
 
-    public void Construct(GameParams gameParams, PipeSpawner pipeSpawner)
+    public void Construct(GameParams gameParams, TileSpawner tileSpawner)
     {
         _params = gameParams;
-        _pipeSpawner = pipeSpawner;
+        _tileSpawner = tileSpawner;
     }
 
     public void Kill()
