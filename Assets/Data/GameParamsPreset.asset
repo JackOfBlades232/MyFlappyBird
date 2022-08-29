@@ -16,12 +16,13 @@ MonoBehaviour:
   _birdRotationCeil: 25
   _birdJumpCooldown: 0.03
   _birdWingsDownFrameDuration: 0.35
-  _tileDespawnX: -6.74
+  _pipeDespawnX: -6
   _pipeSetMinY: -3
   _pipeSetMaxY: 3
   _maxScoreForIncDifficulty: 1000
-  _tileBaseVelocity: 2.5
-  _tileMaxVelocity: 7
+  _pipeSpawnDistanceInterval: 2.5
+  _envBaseVelocity: 2.5
+  _envMaxVelocity: 5
   _pipeSetYBaseDelta: 1
   _pipeSetYMaxDelta: 5
   _pipeSpaceSpread: 0.6

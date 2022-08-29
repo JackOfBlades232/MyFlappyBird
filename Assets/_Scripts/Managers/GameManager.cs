@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour, IInitializable
     private EndgameUI _endgameUI;
 
     private PlayerFacade _player;
-    private TileSpawner _tileSpawner;
+    private PipeSpawner _pipeSpawner;
     private ScoreManager _scoreManager;
 
     public UnityEvent OnGameEnded;
@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour, IInitializable
     public void Initialize()
     {
         _player = FindObjectOfType<PlayerFacade>();
-        _tileSpawner = FindObjectOfType<TileSpawner>();
+        _pipeSpawner = FindObjectOfType<PipeSpawner>();
         _scoreManager = FindObjectOfType<ScoreManager>();
 
         InitializeAll();
@@ -34,11 +34,11 @@ public class GameManager : MonoBehaviour, IInitializable
     
     private void InitializeAll()
     {
-        _player.Construct(_params, _tileSpawner);
-        _tileSpawner.Construct(_params, _scoreManager);
+        _player.Construct(_params, _pipeSpawner);
+        _pipeSpawner.Construct(_params, _scoreManager);
         
         _player.Initialize();
-        _tileSpawner.Initialize();
+        _pipeSpawner.Initialize();
         _scoreManager.Initialize();
         
         _player.OnFallen.AddListener(() => OnGameEnded?.Invoke());

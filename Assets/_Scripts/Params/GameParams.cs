@@ -22,7 +22,7 @@ public class GameParams : ScriptableObject
 
     [Header("Pipe spawning")]
     [SerializeField]
-    private float _tileDespawnX;
+    private float _pipeDespawnX;
 
     [SerializeField]
     private float _pipeSetMinY, _pipeSetMaxY;
@@ -30,9 +30,12 @@ public class GameParams : ScriptableObject
     [Header("Difficulty")]
     [SerializeField]
     private float _maxScoreForIncDifficulty;
+
+    [SerializeField]
+    private float _pipeSpawnDistanceInterval;
     
     [SerializeField]
-    private float _tileBaseVelocity, _tileMaxVelocity; // 1 4
+    private float _envBaseVelocity, _envMaxVelocity; // 1 4
 
     [SerializeField]
     private float _pipeSetYBaseDelta, _pipeSetYMaxDelta;
@@ -48,14 +51,15 @@ public class GameParams : ScriptableObject
     public float BirdJumpCooldown => _birdJumpCooldown;
     public float BirdWingsDownFrameDuration => _birdWingsDownFrameDuration;
     
-    public float TileDespawnX => _tileDespawnX;
+    public float PipeDespawnX => _pipeDespawnX;
     public float PipeSetMinY => _pipeSetMinY;
     public float PipeSetMaxY => _pipeSetMaxY;
 
-    public float TileBaseVelocity => _tileBaseVelocity;
-    public float TileMaxVelocity => _tileMaxVelocity;
-    public float TileVelocityIncPerPoint =>
-        (_tileMaxVelocity - _tileBaseVelocity) / _maxScoreForIncDifficulty;
+    public float PipeSpawnDistanceInterval => _pipeSpawnDistanceInterval;
+    public float EnvBaseVelocity => _envBaseVelocity;
+    public float EnvMaxVelocity => _envMaxVelocity;
+    public float EnvVelocityIncPerPoint =>
+        (_envMaxVelocity - _envBaseVelocity) / _maxScoreForIncDifficulty;
     public float PipeSetYBaseDelta => _pipeSetYBaseDelta;
     public float PipeSetYMaxDelta => _pipeSetYMaxDelta;
     public float PipeSetYDeltaIncPerPoint =>

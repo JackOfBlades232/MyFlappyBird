@@ -1,17 +1,26 @@
 ﻿using System;
+using System.Security.Cryptography;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class PipeSet : MonoBehaviour, IInitializable
 {
     [SerializeField]
     private Transform _bottomPipe, _topPipe;
-    
-    private Tile _tile;
+
+    private GameParams _params;
+
+    private PipeSpawner _spawner;
+
+    private Rigidbody2D _rigidbody;
 
     private Action _onPipePassed;
 
     private float _y, _space;
+
+    // TODO : Refactor this?
+    private void Update() => CheckIfIsToDespawn();
 
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -25,14 +34,20 @@ public class PipeSet : MonoBehaviour, IInitializable
 
     public void Initialize()
     {
-        _onPipePassed = () => _tile.SendPipePassed();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        
+        _spawner.AddPipeSet(this);
+        
+        _onPipePassed = _spawner.SendPipePassed;
         
         SetPipesPositions();
     }
 
-    public void Construct(Tile tile, float y, float space)
+    public void Construct(GameParams gameParams, PipeSpawner spawner, float y,
+        float space)
     {
-        _tile = tile;
+        _params = gameParams;
+        _spawner = spawner;
 
         _y = y;
         _space = space;
@@ -47,4 +62,24 @@ public class PipeSet : MonoBehaviour, IInitializable
         _bottomPipe.position = transform.position + halfSpace * Vector3.down;
         _topPipe.position = transform.position + halfSpace * Vector3.up;
     }
+    
+    // TODO : refactor this?
+    private void CheckIfIsToDespawn()
+    {
+        if (transform.position.x <= _params.PipeDespawnX)
+            Despawn();
+    }
+
+    private void Despawn()
+    {
+        _spawner.ReleasePipeSet(this);
+        
+        Destroy(gameObject);
+    }
+
+    public void StopMovement() => UpdateVelocity(0);
+    
+    public void UpdateVelocity(float velocity) =>
+        _rigidbody.velocity = velocity * Vector2.left;
+    
 }

@@ -10,11 +10,14 @@ public class DifficultyState : IInitializable
 
     private IEnumerator<float> _pipeSetYGenerator;
 
-    public float TileVelocity { get; private set; }
+    public float EnvVelocity { get; private set; }
+
+    public float PipeSpawnCooldown =>
+        _params.PipeSpawnDistanceInterval / EnvVelocity;
 
     public void Initialize()
     {
-        TileVelocity = _params.TileBaseVelocity;
+        EnvVelocity = _params.EnvBaseVelocity;
         _pipeSetYDelta = _params.PipeSetYBaseDelta;
         _pipeAvgSpace = _params.PipeBaseAvgSpace;
 
@@ -33,14 +36,14 @@ public class DifficultyState : IInitializable
 
     private void IncreaseDifficultyByOnePoint()
     {
-        TileVelocity += _params.TileVelocityIncPerPoint;
+        EnvVelocity += _params.EnvVelocityIncPerPoint;
         _pipeSetYDelta += _params.PipeSetYDeltaIncPerPoint;
         _pipeAvgSpace -= _params.PipeAvgSpaceDecPerPoint;
     }
 
     private void TruncateDifficulty()
     {
-        TileVelocity = Mathf.Min(TileVelocity, _params.TileMaxVelocity);
+        EnvVelocity = Mathf.Min(EnvVelocity, _params.EnvMaxVelocity);
         _pipeSetYDelta = Mathf.Min(_pipeSetYDelta, _params.PipeSetYMaxDelta);
         _pipeAvgSpace = Mathf.Max(_pipeAvgSpace, _params.PipeMinAvgSpace);
     }
