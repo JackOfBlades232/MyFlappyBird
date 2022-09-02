@@ -12,20 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd0ae4780dab494d9f63cdaebfddbab, type: 3}
   m_Name: GameParamsPreset
   m_EditorClassIdentifier: 
-  _birdJumpImpulse: 6
-  _birdRotationCeil: 40
-  _birdJumpCooldown: 0.3
+  _birdJumpImpulse: 3
+  _birdRotationCeil: 25
+  _birdJumpCooldown: 0.03
   _birdWingsDownFrameDuration: 0.35
-  _pipeTravelDistance: 10
+  _pipeDespawnX: -6
   _pipeSetMinY: -3
   _pipeSetMaxY: 3
-  _maxScoreForIncDifficulty: 200
-  _pipeBaseVelocity: 1
-  _pipeMaxVelocity: 4
-  _pipeSpawnBaseCooldown: 5
-  _pipeSpawnMinCooldown: 2
+  _maxScoreForIncDifficulty: 1000
+  _pipeSpawnDistanceInterval: 2.5
+  _envBaseVelocity: 2.5
+  _envMaxVelocity: 5
   _pipeSetYBaseDelta: 1
   _pipeSetYMaxDelta: 5
-  _pipeSpaceSpread: 1
-  _pipeBaseAvgSpace: 3.5
-  _pipeMinAvgSpace: 2
+  _pipeSpaceSpread: 0.6
+  _pipeBaseAvgSpace: 2.2
+  _pipeMinAvgSpace: 1
