@@ -77,7 +77,12 @@ public class PipeSet : MonoBehaviour, IInitializable
         Destroy(gameObject);
     }
 
-    public void StopMovement() => UpdateVelocity(0);
+    public void Deactivate()
+    {
+        UpdateVelocity(0);
+        
+        _onPipePassed = null;
+    }
     
     public void UpdateVelocity(float velocity) =>
         _rigidbody.velocity = velocity * Vector2.left;

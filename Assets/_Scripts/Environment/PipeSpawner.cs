@@ -93,9 +93,9 @@ public class PipeSpawner : MonoBehaviour, IInitializable {
     {
         StopAllCoroutines();
         
-        _movingFloor.StopMovement();
+        _movingFloor.Deactivate();
 
         foreach (PipeSet pipeSet in _spawnedPipes)
-            pipeSet.StopMovement();
+            pipeSet.Deactivate();
     }
 }

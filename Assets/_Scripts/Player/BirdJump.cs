@@ -9,6 +9,8 @@ using TMPro;
 public class BirdJump : MonoBehaviour, IInitializable
 {
     private GameParams _params;
+
+    private PlayerFacade _player;
     
     private BirdSpriteSwapper _spriteSwapper;
 
@@ -18,7 +20,7 @@ public class BirdJump : MonoBehaviour, IInitializable
 
     private float _lastJumpTime;
 
-    private bool _jumpBlocked;
+    private bool _isDead;
 
     public UnityEvent OnJumpStarted;
 
@@ -32,17 +34,17 @@ public class BirdJump : MonoBehaviour, IInitializable
         _spriteSwapper.Construct(_params);
         _spriteSwapper.Initialize();
         
-        OnReachedGround.AddListener(BlockJump);
-        
-        _jumpBlocked = false;
+        _isDead = false;
 
         _lastJumpTime = Time.time - _params.BirdJumpCooldown;
         SetAfterJumpRotate();
     }
 
-    public void Construct(GameParams gameParams, GroundStatic groundStatic)
+    public void Construct(GameParams gameParams, PlayerFacade player,
+        GroundStatic groundStatic)
     {
         _params = gameParams;
+        _player = player;
         _groundStatic = groundStatic;
     }
     
@@ -70,23 +72,31 @@ public class BirdJump : MonoBehaviour, IInitializable
 
         Vector3 finalRotation = new Vector3(0, 0, -Utils.StraightAngle);
 
-        transform.DORotate(finalRotation, fallTime)
-            .OnComplete(() => OnReachedGround?.Invoke());
+        transform.DORotate(finalRotation, fallTime).OnComplete(HitGround);
     }
 
-    private void BlockJump()
+    private void HitGround()
     {
-        if (_jumpBlocked)
+        OnReachedGround?.Invoke();
+
+        if (_isDead)
             return;
         
-        _jumpBlocked = true;
+        SetIsDead();
+        
+        _player.Kill();
+    }
+
+    private void SetIsDead()
+    {
+        _isDead = true;
         
         _rigidbody.velocity = Vector2.zero;
     }
 
     public void PerformJump()
     {
-        if (_jumpBlocked)
+        if (_isDead)
             return;
         
         float timeSinceJump = Time.time - _lastJumpTime;
@@ -106,12 +116,12 @@ public class BirdJump : MonoBehaviour, IInitializable
         }
     }
 
-    public void Kill()
+    public void KillJumping()
     {
-        if (_jumpBlocked)
+        if (_isDead)
             return;
         
-        BlockJump();
+        SetIsDead();
 
         SetAfterJumpRotate();
     }

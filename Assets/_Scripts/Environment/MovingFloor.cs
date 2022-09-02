@@ -27,7 +27,7 @@ public class MovingFloor : MonoBehaviour, IInitializable
             transform.Translate(Width, 0, 0);
     }
 
-    public void StopMovement() => UpdateVelocity(0);
+    public void Deactivate() => UpdateVelocity(0);
     
     public void UpdateVelocity(float value) =>
         _rigidbody.velocity = value * Vector2.left;
