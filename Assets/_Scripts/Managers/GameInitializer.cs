@@ -8,17 +8,21 @@ public class GameInitializer : MonoBehaviour
     private GameManager _gameManager;
     private EndgameManager _endgameManager;
 
+    private SaveLoadManager _saveLoadManager;
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
         _endgameManager = FindObjectOfType<EndgameManager>();
 
-        _gameManager.Construct(_params);
+        _saveLoadManager = new SaveLoadManager();
+        
+        _saveLoadManager.Initialize();
+
+        _gameManager.Construct(_params, _saveLoadManager);
         _gameManager.Initialize();
         
-        _endgameManager.Construct(_params, _gameManager);
+        _endgameManager.Construct(_params, _gameManager, _saveLoadManager);
         _endgameManager.Initialize();
-
-        Utils.Pause();
     }
 }

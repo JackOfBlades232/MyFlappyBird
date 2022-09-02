@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour, IInitializable
 
     private PlayerFacade _player;
     private PipeSpawner _pipeSpawner;
+    
     private ScoreManager _scoreManager;
+    private SaveLoadManager _saveLoadManager;
 
     private StartUI _startUI;
     private MainUI _mainUI;
@@ -26,10 +28,17 @@ public class GameManager : MonoBehaviour, IInitializable
         _mainUI = FindObjectOfType<MainUI>();
 
         InitializeAll();
+        
+        Utils.Pause();
     }
 
-    public void Construct(GameParams gameParams) => _params = gameParams;
-    
+    public void Construct(GameParams gameParams,
+        SaveLoadManager saveLoadManager)
+    {
+        _params = gameParams;
+        _saveLoadManager = saveLoadManager;
+    }
+
     private void InitializeAll()
     {
         _player.Construct(_params, _pipeSpawner);
@@ -48,6 +57,8 @@ public class GameManager : MonoBehaviour, IInitializable
         _startUI.OnClicked.AddListener(_mainUI.Activate);
         
         OnGameEnded.AddListener(_mainUI.Deactivate);
+        OnGameEnded.AddListener(() =>
+            _saveLoadManager.OnGameEnd(_scoreManager.Score));
     }
 
     private void StartGame()

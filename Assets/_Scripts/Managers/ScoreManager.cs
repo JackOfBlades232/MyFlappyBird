@@ -4,10 +4,10 @@ using UnityEngine.Events;
 public class ScoreManager : MonoBehaviour, IInitializable
 {
     private ScoreText _text;
-    
-    private int _score;
 
     public UnityEvent<int> OnScoreChanged;
+    
+    public int Score { get; private set; }
     
     public void Initialize()
     {
@@ -21,15 +21,15 @@ public class ScoreManager : MonoBehaviour, IInitializable
 
     private void ResetScore()
     {
-        _score = 0;
+        Score = 0;
         
-        OnScoreChanged?.Invoke(_score);
+        OnScoreChanged?.Invoke(Score);
     }
 
     public void IncrementScore()
     {
-        _score++;
+        Score++;
         
-        OnScoreChanged?.Invoke(_score);
+        OnScoreChanged?.Invoke(Score);
     }
 }
