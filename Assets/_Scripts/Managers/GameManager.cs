@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IInitializable
 {
@@ -12,6 +11,9 @@ public class GameManager : MonoBehaviour, IInitializable
     private PipeSpawner _pipeSpawner;
     private ScoreManager _scoreManager;
 
+    private StartUI _startUI;
+    private MainUI _mainUI;
+
     public UnityEvent OnGameEnded;
 
     public void Initialize()
@@ -20,17 +22,13 @@ public class GameManager : MonoBehaviour, IInitializable
         _pipeSpawner = FindObjectOfType<PipeSpawner>();
         _scoreManager = FindObjectOfType<ScoreManager>();
 
+        _startUI = FindObjectOfType<StartUI>();
+        _mainUI = FindObjectOfType<MainUI>();
+
         InitializeAll();
     }
 
     public void Construct(GameParams gameParams) => _params = gameParams;
-
-    public void StartGame()
-    {
-        Utils.Unpause();
-        
-        _player.Activate();  
-    } 
     
     private void InitializeAll()
     {
@@ -41,6 +39,21 @@ public class GameManager : MonoBehaviour, IInitializable
         _pipeSpawner.Initialize();
         _scoreManager.Initialize();
         
+        _startUI.Initialize();
+        _mainUI.Initialize();
+        
         _player.OnFallen.AddListener(() => OnGameEnded?.Invoke());
+        
+        _startUI.OnClicked.AddListener(StartGame);
+        _startUI.OnClicked.AddListener(_mainUI.Activate);
+        
+        OnGameEnded.AddListener(_mainUI.Deactivate);
     }
+
+    private void StartGame()
+    {
+        Utils.Unpause();
+        
+        _player.Activate();  
+    } 
 }

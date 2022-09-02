@@ -36,7 +36,7 @@ public class BirdJump : MonoBehaviour, IInitializable
         
         _isDead = false;
 
-        _lastJumpTime = Time.time - _params.BirdJumpCooldown;
+        _lastJumpTime = Time.time - _params.BirdJumpCooldown - Utils.Precision;
         SetAfterJumpRotate();
     }
 
@@ -98,7 +98,7 @@ public class BirdJump : MonoBehaviour, IInitializable
     {
         if (_isDead)
             return;
-        
+
         float timeSinceJump = Time.time - _lastJumpTime;
 
         if (timeSinceJump >= _params.BirdJumpCooldown)
