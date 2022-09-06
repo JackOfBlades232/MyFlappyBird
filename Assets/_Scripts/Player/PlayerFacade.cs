@@ -4,16 +4,15 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(BirdJump))]
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(BirdAnimation))]
 public class PlayerFacade : MonoBehaviour, IInitializable
 {
     private GameParams _params;
-    
     private PipeSpawner _pipeSpawner;
     
     private BirdJump _jumper;
-
     private PlayerInput _input;
-
+    private BirdAnimation _animation;
     private GroundStatic _groundStatic;
 
     public UnityEvent OnKilled, OnFallen;
@@ -22,6 +21,7 @@ public class PlayerFacade : MonoBehaviour, IInitializable
     {
         _jumper = GetComponent<BirdJump>();
         _input = GetComponent<PlayerInput>();
+        _animation = GetComponent<BirdAnimation>();
         _groundStatic = FindObjectOfType<GroundStatic>();
         
         _groundStatic.Initialize();
@@ -29,7 +29,10 @@ public class PlayerFacade : MonoBehaviour, IInitializable
         _jumper.Construct(_params, this, _groundStatic);
         _jumper.Initialize();
         
+        _animation.Initialize();
+        
         OnKilled.AddListener(_pipeSpawner.StopAllTiles);
+        OnKilled.AddListener(_animation.DisableAnimation);
 
         _jumper.OnReachedGround.AddListener(() => OnFallen?.Invoke());
 

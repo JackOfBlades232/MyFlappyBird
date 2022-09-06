@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4769287211115665554}
   - component: {fileID: 4769287211115665557}
+  - component: {fileID: 9218690985388268307}
   - component: {fileID: 4769287211115665552}
   - component: {fileID: 4769287211115665555}
   - component: {fileID: 2196720038328148699}
   - component: {fileID: 4769287211115665566}
   - component: {fileID: 4769287211115665564}
   - component: {fileID: 4769287211115665553}
-  - component: {fileID: 4769287211115665567}
   m_Layer: 0
   m_Name: PlayerBird
   m_TagString: Untagged
@@ -91,6 +91,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &9218690985388268307
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769287211115665556}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5c4ec2e017d1b634b97c9ee8c577cf3e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!50 &4769287211115665552
 Rigidbody2D:
   serializedVersion: 4
@@ -242,7 +262,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fcb2ed55084b369841ea8e91ac7373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDeath:
+  OnKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFallen:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4769287211115665553
@@ -257,11 +280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d79799b77afbd54db72475986d72383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _params: {fileID: 11400000, guid: b7556be8a794a8b42aa7625d63ba36cd, type: 2}
   OnJumpStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4769287211115665567}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BirdSpriteSwapper, Assembly-CSharp
         m_MethodName: SwapSprites
         m_Mode: 1
@@ -273,20 +295,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnHitGround:
+  OnReachedGround:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4769287211115665567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4769287211115665556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bf573a90a39ed4498136a72c791f6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wingsUpSprite: {fileID: 21300000, guid: 56d0aee269d580d41abc186b07f596ce, type: 3}
-  _wingsDownSprite: {fileID: 21300000, guid: b91ebfd6fd2c4484da233a45400d40ec, type: 3}
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
