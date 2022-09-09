@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,9 @@ public class PlayerFacade : MonoBehaviour, IInitializable
     private BirdAnimation _animation;
     private GroundStatic _groundStatic;
 
+    private Action _playHitSound =
+        () => AudioManager.Instance.PlaySound(SoundType.Hit);
+
     public UnityEvent OnKilled, OnFallen;
 
     public void Initialize()
@@ -30,9 +34,11 @@ public class PlayerFacade : MonoBehaviour, IInitializable
         _jumper.Initialize();
         
         _animation.Initialize();
-        
+
         OnKilled.AddListener(_pipeSpawner.StopAllTiles);
         OnKilled.AddListener(_animation.DisableAnimation);
+        OnKilled.AddListener(() =>
+            AudioManager.Instance.StopMusic(MusicType.Game));
 
         _jumper.OnReachedGround.AddListener(() => OnFallen?.Invoke());
 
@@ -64,5 +70,11 @@ public class PlayerFacade : MonoBehaviour, IInitializable
         Kill();
         
         _jumper.KillJumping();
+
+        if (_playHitSound != null)
+        {
+            _playHitSound.Invoke();
+            _playHitSound = null;
+        }
     }
 }

@@ -20,6 +20,11 @@ public class BirdJump : MonoBehaviour, IInitializable
     public void Initialize()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+
+        OnJumpStarted.AddListener(() =>
+            AudioManager.Instance.PlaySound(SoundType.Flap));
+        OnReachedGround.AddListener(() =>
+            AudioManager.Instance.PlaySound(SoundType.Die));
         
         _isDead = false;
         _lastJumpTime = Time.time - _params.BirdJumpCooldown - Utils.Precision;

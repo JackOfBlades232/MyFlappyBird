@@ -14,6 +14,8 @@ public class EndgameUI : MonoBehaviour, IInitializable
         _highScoreText = GetComponentInChildren<ScoreText>();
         
         _restartButton.Initialize();
+        _restartButton.OnClick.AddListener(() =>
+            AudioManager.Instance.PlaySound(SoundType.ButtonPress));
         _restartButton.OnClick.AddListener(RestartGame);
         
         _highScoreText.Initialize();
@@ -23,8 +25,11 @@ public class EndgameUI : MonoBehaviour, IInitializable
 
     public void Construct(PlayerData playerData) => _playerData = playerData;
     
-    private void RestartGame() =>
+    private void RestartGame()
+    {
+        AudioManager.Instance.StopAllMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
     public void Activate()
     {

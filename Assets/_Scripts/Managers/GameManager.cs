@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour, IInitializable
     private void StartGame()
     {
         Utils.Unpause();
+        AudioManager.Instance.PlayMusic(MusicType.Game);
         
         _player.Activate();  
     } 

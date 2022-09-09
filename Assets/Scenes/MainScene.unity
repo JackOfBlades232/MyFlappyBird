@@ -246,7 +246,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1628,6 +1628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _params: {fileID: 11400000, guid: b7556be8a794a8b42aa7625d63ba36cd, type: 2}
+  _audioManagerPrefab: {fileID: 8349683980801963689, guid: b6c0d027de32bd54e94f9f54eb275904, type: 3}
 --- !u!4 &1852540076
 Transform:
   m_ObjectHideFlags: 0
