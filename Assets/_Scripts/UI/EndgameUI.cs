@@ -3,15 +3,17 @@ using UnityEngine.SceneManagement;
 
 public class EndgameUI : MonoBehaviour, IInitializable
 {
-    private RestartButton _restartButton;
+    private ButtonBase _restartButton;
     private ScoreText _highScoreText;
+    private SettingsMenu _settingsMenu;
 
     private PlayerData _playerData;
 
     public void Initialize()
     {
-        _restartButton = GetComponentInChildren<RestartButton>();
+        _restartButton = GetComponentInChildren<ButtonBase>();
         _highScoreText = GetComponentInChildren<ScoreText>();
+        _settingsMenu = GetComponentInChildren<SettingsMenu>();
         
         _restartButton.Initialize();
         _restartButton.OnClick.AddListener(() =>
@@ -19,6 +21,7 @@ public class EndgameUI : MonoBehaviour, IInitializable
         _restartButton.OnClick.AddListener(RestartGame);
         
         _highScoreText.Initialize();
+        _settingsMenu.Initialize();
 
         gameObject.SetActive(false);
     }
