@@ -2051,6 +2051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _params: {fileID: 11400000, guid: b7556be8a794a8b42aa7625d63ba36cd, type: 2}
   _audioManagerPrefab: {fileID: 8349683980801963689, guid: b6c0d027de32bd54e94f9f54eb275904, type: 3}
+  _adsManagerPrefab: {fileID: 4909322701558680100, guid: 38bd8dcf544c8414eb44a38a17de9cb2, type: 3}
 --- !u!4 &1852540076
 Transform:
   m_ObjectHideFlags: 0

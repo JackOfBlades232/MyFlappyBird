@@ -7,6 +7,9 @@ using UnityEngine.Serialization;
     order = 101)]
 public class GameParams : ScriptableObject
 {
+    [SerializeField]
+    public bool _isTestAdsMode;
+
     [Header("Bird jumping")]
     [SerializeField]
     private float _birdJumpImpulse;
@@ -30,7 +33,7 @@ public class GameParams : ScriptableObject
 
     [SerializeField]
     private float _pipeSpawnDistanceInterval;
-    
+
     [SerializeField]
     private float _envBaseVelocity, _envMaxVelocity; // 1 4
 
@@ -46,6 +49,8 @@ public class GameParams : ScriptableObject
     [SerializeField]
     private int _goldMedalScoreThreshold;
 
+    public bool IsTestAdsMode => _isTestAdsMode;
+    
     public Vector2 BirdJumpImpulse => Vector2.up * _birdJumpImpulse;
     public float BirdRotationCeil => _birdRotationCeil;
     public float BirdJumpCooldown => _birdJumpCooldown;

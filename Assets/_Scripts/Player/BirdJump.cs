@@ -96,7 +96,6 @@ public class BirdJump : MonoBehaviour, IInitializable
         if (timeSinceJump >= _params.BirdJumpCooldown)
         {
             OnJumpStarted?.Invoke();
-            Debug.Log(timeSinceJump);
             
             _rigidbody.velocity = Vector2.zero;
 

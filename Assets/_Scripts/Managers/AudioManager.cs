@@ -1,37 +1,25 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
-public class AudioManager : MonoBehaviour, IInitializable
+public class AudioManager : SingletonMono<AudioManager>
 {
-    public static AudioManager Instance;
-
     private SaveLoadManager _saveLoadManager;
 
     private Dictionary<SoundType, Sound> _sounds;
     private Dictionary<MusicType, Music> _musics;
 
-    public void Initialize()
-    {
-        if (Instance == null)
-            InitSingleInstance();
-        else
-            Destroy(gameObject);
-    }
-
     public void Construct(SaveLoadManager saveLoadManager) =>
         _saveLoadManager = saveLoadManager;
 
-    private void InitSingleInstance()
+    protected override void InitSingleInstance()
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.InitSingleInstance();
         
         InitSounds();
         InitMusic();
         
         LoadInitState();
     }
-
+    
     private void InitSounds()
     {
         _sounds = new Dictionary<SoundType, Sound>();
@@ -56,7 +44,7 @@ public class AudioManager : MonoBehaviour, IInitializable
         }
     }
 
-    public void LoadInitState()
+    private void LoadInitState()
     {
         if (_saveLoadManager.PlayerData.MusicIsMuted)
             MuteMusic();

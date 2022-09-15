@@ -7,6 +7,9 @@ public class GameInitializer : MonoBehaviour
 
     [SerializeField]
     private AudioManager _audioManagerPrefab;
+
+    [SerializeField]
+    private AdsManager _adsManagerPrefab;
     
     private GameManager _gameManager;
     private EndgameManager _endgameManager;
@@ -24,6 +27,10 @@ public class GameInitializer : MonoBehaviour
         AudioManager audioManager = Instantiate(_audioManagerPrefab);
         audioManager.Construct(_saveLoadManager);
         audioManager.Initialize();
+        
+        AdsManager adsManager = Instantiate(_adsManagerPrefab);
+        adsManager.Construct(_params);
+        adsManager.Initialize();
 
         _gameManager.Construct(_params, _saveLoadManager);
         _gameManager.Initialize();
