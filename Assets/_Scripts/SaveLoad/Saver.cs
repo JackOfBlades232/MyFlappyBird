@@ -14,17 +14,20 @@ public static class Saver
 
     public static PlayerData LoadPlayerData(string savePath)
     {
+        PlayerData data;
+        
         if (File.Exists(savePath))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream fs = new FileStream(savePath, FileMode.Open);
 
-            PlayerData data = (PlayerData) formatter.Deserialize(fs);
+            data = (PlayerData) formatter.Deserialize(fs);
+            
             fs.Close();
-
-            return data;
         }
+        else 
+            data = new PlayerData();
 
-        return new PlayerData();
+        return data;
     }
 }

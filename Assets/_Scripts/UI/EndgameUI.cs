@@ -1,10 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EndgameUI : MonoBehaviour, IInitializable
 {
+    [SerializeField]
+    private ScoreText _scoreText, _highScoreText;
+
+    [SerializeField]
+    private Image _medal; 
+
+    [SerializeField]
+    private Sprite _silverMedal, _goldMedal;
+
+    private GameParams _params;
+
     private ButtonBase _restartButton;
-    private ScoreText _highScoreText;
     private SettingsMenu _settingsMenu;
 
     private PlayerData _playerData;
@@ -12,7 +23,6 @@ public class EndgameUI : MonoBehaviour, IInitializable
     public void Initialize()
     {
         _restartButton = GetComponentInChildren<ButtonBase>();
-        _highScoreText = GetComponentInChildren<ScoreText>();
         _settingsMenu = GetComponentInChildren<SettingsMenu>();
         
         _restartButton.Initialize();
@@ -20,24 +30,41 @@ public class EndgameUI : MonoBehaviour, IInitializable
             AudioManager.Instance.PlaySound(SoundType.ButtonPress));
         _restartButton.OnClick.AddListener(RestartGame);
         
+        _scoreText.Initialize();
         _highScoreText.Initialize();
         _settingsMenu.Initialize();
 
         gameObject.SetActive(false);
     }
 
-    public void Construct(PlayerData playerData) => _playerData = playerData;
-    
+    public void Construct(GameParams gameParas, PlayerData playerData)
+    {
+        _params = gameParas;
+        _playerData = playerData;
+    }
+
     private void RestartGame()
     {
         AudioManager.Instance.StopAllMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    // TODO : abstract score plack logic
+    private void ChooseMedal()
+    {
+        if (_playerData.LastScore >= _params.GoldMedalScoreThreshold)
+            _medal.sprite = _goldMedal;
+        else
+            _medal.sprite = _silverMedal;
+    }
+
     public void Activate()
     {
         gameObject.SetActive(true);
         
+        _scoreText.SetScoreText(_playerData.LastScore);
         _highScoreText.SetScoreText(_playerData.HighScore);
+        
+        ChooseMedal();
     }
 }

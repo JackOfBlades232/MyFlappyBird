@@ -5,6 +5,8 @@ public class AudioManager : MonoBehaviour, IInitializable
 {
     public static AudioManager Instance;
 
+    private SaveLoadManager _saveLoadManager;
+
     private Dictionary<SoundType, Sound> _sounds;
     private Dictionary<MusicType, Music> _musics;
 
@@ -16,6 +18,9 @@ public class AudioManager : MonoBehaviour, IInitializable
             Destroy(gameObject);
     }
 
+    public void Construct(SaveLoadManager saveLoadManager) =>
+        _saveLoadManager = saveLoadManager;
+
     private void InitSingleInstance()
     {
         Instance = this;
@@ -23,6 +28,8 @@ public class AudioManager : MonoBehaviour, IInitializable
         
         InitSounds();
         InitMusic();
+        
+        LoadInitState();
     }
 
     private void InitSounds()
@@ -47,6 +54,19 @@ public class AudioManager : MonoBehaviour, IInitializable
             music.Initialize();
             _musics[music.Type] = music;
         }
+    }
+
+    public void LoadInitState()
+    {
+        if (_saveLoadManager.PlayerData.MusicIsMuted)
+            MuteMusic();
+        else
+            UnmuteMusic();
+        
+        if (_saveLoadManager.PlayerData.SoundIsMuted)
+            MuteSounds();
+        else
+            UnmuteSounds();
     }
 
     public void PlaySound(SoundType soundType) => _sounds[soundType].Play();

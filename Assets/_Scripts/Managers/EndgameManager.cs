@@ -14,7 +14,7 @@ public class EndgameManager : MonoBehaviour, IInitializable
     {
         _ui = FindObjectOfType<EndgameUI>();
         
-        _ui.Construct(_saveLoadManager.PlayerData);
+        _ui.Construct(_params, _saveLoadManager.PlayerData);
         _ui.Initialize();
 
         _gameManager.OnGameEnded.AddListener(Activate);

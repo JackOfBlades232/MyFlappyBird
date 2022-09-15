@@ -18,11 +18,12 @@ public class GameInitializer : MonoBehaviour
         _gameManager = FindObjectOfType<GameManager>();
         _endgameManager = FindObjectOfType<EndgameManager>();
 
-        AudioManager audioManager = Instantiate(_audioManagerPrefab);
-        audioManager.Initialize();
-
-        _saveLoadManager = new SaveLoadManager();
+        _saveLoadManager = SaveLoadManager.Instance;
         _saveLoadManager.Initialize();
+
+        AudioManager audioManager = Instantiate(_audioManagerPrefab);
+        audioManager.Construct(_saveLoadManager);
+        audioManager.Initialize();
 
         _gameManager.Construct(_params, _saveLoadManager);
         _gameManager.Initialize();

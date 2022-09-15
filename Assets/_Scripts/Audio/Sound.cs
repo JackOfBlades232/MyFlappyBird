@@ -7,6 +7,8 @@ public class Sound : AudioBase
     private SoundType _type;
     
     public SoundType Type => _type;
+
+    private Coroutine _playRoutine;
     
     private IEnumerator PlayOnce()
     {
@@ -17,5 +19,14 @@ public class Sound : AudioBase
         Stop();
     }
 
-    public override void Play() => StartCoroutine(PlayOnce());
+    public override void Play()
+    {
+        if (_playRoutine != null)
+        {
+            Stop();
+            StopAllCoroutines();
+        }
+        
+        _playRoutine = StartCoroutine(PlayOnce());
+    }
 }

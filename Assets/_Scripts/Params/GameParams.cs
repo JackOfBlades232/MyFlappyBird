@@ -17,9 +17,6 @@ public class GameParams : ScriptableObject
     [SerializeField]
     private float _birdJumpCooldown;
 
-    [SerializeField]
-    private float _birdWingsDownFrameDuration;
-
     [Header("Pipe spawning")]
     [SerializeField]
     private float _pipeDespawnX;
@@ -45,11 +42,13 @@ public class GameParams : ScriptableObject
 
     [SerializeField]
     private float _pipeBaseAvgSpace, _pipeMinAvgSpace;
-    
+
+    [SerializeField]
+    private int _goldMedalScoreThreshold;
+
     public Vector2 BirdJumpImpulse => Vector2.up * _birdJumpImpulse;
     public float BirdRotationCeil => _birdRotationCeil;
     public float BirdJumpCooldown => _birdJumpCooldown;
-    public float BirdWingsDownFrameDuration => _birdWingsDownFrameDuration;
     
     public float PipeDespawnX => _pipeDespawnX;
     public float PipeSetMinY => _pipeSetMinY;
@@ -69,4 +68,6 @@ public class GameParams : ScriptableObject
     public float PipeMinAvgSpace => _pipeMinAvgSpace;
     public float PipeAvgSpaceDecPerPoint =>
         (_pipeBaseAvgSpace - _pipeMinAvgSpace) / _maxScoreForIncDifficulty;
+
+    public int GoldMedalScoreThreshold => _goldMedalScoreThreshold;
 }

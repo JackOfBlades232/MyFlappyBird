@@ -3,6 +3,12 @@
 public class MuteButton : ButtonBase
 {
     [SerializeField]
+    private Color _liveColor = Color.white;
+    
+    [SerializeField]
+    private Color _mutedColor;
+    
+    [SerializeField]
     private bool _isMusic;
 
     private bool _isPressed;
@@ -10,10 +16,22 @@ public class MuteButton : ButtonBase
     public override void Initialize()
     {
         base.Initialize();
-        
-        Button.image.color = Color.white;
-        
+        LoadInitState();
         OnClick.AddListener(OnPress);
+    }
+
+    private void LoadInitState()
+    {
+        bool isMuted = _isMusic
+            ? SaveLoadManager.Instance.PlayerData.MusicIsMuted
+            : SaveLoadManager.Instance.PlayerData.SoundIsMuted;
+        
+        if (isMuted)
+            Mute();
+        else
+            Unmute();
+
+        _isPressed = isMuted;
     }
 
     private void OnPress()
@@ -24,14 +42,16 @@ public class MuteButton : ButtonBase
             Mute();
 
         _isPressed = !_isPressed;
+
+        SaveLoadManager.Instance.OnMuteButtonPressed(
+            _isMusic,
+            isMuted: _isPressed
+        );
     }
 
     private void Mute()
     {
-        // TODO : refactor this?
-        Button.image.color = Color.gray;
-
-        Debug.Log("Mute");
+        Button.image.color = _mutedColor;
         
         if (_isMusic)
             AudioManager.Instance.MuteMusic();
@@ -41,9 +61,7 @@ public class MuteButton : ButtonBase
     
     private void Unmute()
     {
-        Button.image.color = Color.white;
-
-        Debug.Log("Unmute");
+        Button.image.color = _liveColor;
         
         if (_isMusic)
             AudioManager.Instance.UnmuteMusic();
