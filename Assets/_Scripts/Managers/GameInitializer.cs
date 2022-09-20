@@ -31,6 +31,8 @@ public class GameInitializer : MonoBehaviour
         AdsManager adsManager = Instantiate(_adsManagerPrefab);
         adsManager.Construct(_params);
         adsManager.Initialize();
+        
+        AdsManager.Instance.LoadAds();
 
         _gameManager.Construct(_params, _saveLoadManager);
         _gameManager.Initialize();

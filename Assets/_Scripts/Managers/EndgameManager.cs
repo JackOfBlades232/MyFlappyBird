@@ -17,7 +17,7 @@ public class EndgameManager : MonoBehaviour, IInitializable
         _ui.Construct(_params, _saveLoadManager.PlayerData);
         _ui.Initialize();
 
-        _gameManager.OnGameEnded.AddListener(Activate);
+        _gameManager.OnGameEnded.AddListener(PlayAdAndActivateAfter);
     }
 
     public void Construct(GameParams gameParams, GameManager gameManager,
@@ -28,8 +28,16 @@ public class EndgameManager : MonoBehaviour, IInitializable
         _saveLoadManager = saveLoadManager;
     }
 
+    private void PlayAdAndActivateAfter()
+    {
+        AdsManager.Instance.HideBanner();
+        AdsManager.Instance.OnInterstitialEnded += Activate;
+        AdsManager.Instance.ShowInterstitial();
+    }
+
     private void Activate()
     {
+        AdsManager.Instance.OnInterstitialEnded -= Activate;
         AudioManager.Instance.PlayMusic(MusicType.Menu);
         
         _ui.Activate();
