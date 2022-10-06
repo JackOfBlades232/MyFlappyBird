@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public class ScoreManager : MonoBehaviour, IInitializable
 {
+    [SerializeField]
     private ScoreText _text;
 
     public UnityEvent<int> OnScoreChanged;
@@ -11,8 +12,6 @@ public class ScoreManager : MonoBehaviour, IInitializable
     
     public void Initialize()
     {
-        _text = FindObjectOfType<ScoreText>();
-        
         _text.Initialize();
         OnScoreChanged.AddListener(_text.SetScoreText);
         

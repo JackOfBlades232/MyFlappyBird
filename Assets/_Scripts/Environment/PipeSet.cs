@@ -19,7 +19,6 @@ public class PipeSet : MonoBehaviour, IInitializable
 
     private float _y, _space;
 
-    // TODO : Refactor this?
     private void Update() => CheckIfIsToDespawn();
 
     private void OnTriggerExit2D(Collider2D other)
@@ -63,7 +62,6 @@ public class PipeSet : MonoBehaviour, IInitializable
         _topPipe.position = transform.position + halfSpace * Vector3.up;
     }
     
-    // TODO : refactor this?
     private void CheckIfIsToDespawn()
     {
         if (transform.position.x <= _params.PipeDespawnX)
