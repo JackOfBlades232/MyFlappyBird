@@ -27,7 +27,6 @@ public class SaveLoadManager : IInitializable
 
     public void OnMuteButtonPressed(bool isMusic, bool isMuted)
     {
-        // TODO : refactor this to remove save ddos
         PlayerData.UpdateMute(isMusic, isMuted);
         Save();
     }

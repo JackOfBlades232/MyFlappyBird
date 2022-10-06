@@ -45,11 +45,12 @@ public class EndgameUI : MonoBehaviour, IInitializable
 
     private void RestartGame()
     {
+        AdsManager.Instance.HideBanner();
         AudioManager.Instance.StopAllMusic();
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // TODO : abstract score plack logic
     private void ChooseMedal()
     {
         if (_playerData.LastScore >= _params.GoldMedalScoreThreshold)

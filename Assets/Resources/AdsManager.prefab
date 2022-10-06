@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iosGameId: 4929304
   _androidGameId: 4929305
+  _bannerPosition: 2

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class EndgameManager : MonoBehaviour, IInitializable
 {
@@ -17,7 +18,7 @@ public class EndgameManager : MonoBehaviour, IInitializable
         _ui.Construct(_params, _saveLoadManager.PlayerData);
         _ui.Initialize();
 
-        _gameManager.OnGameEnded.AddListener(PlayAdAndActivateAfter);
+        _gameManager.OnGameEnded.AddListener(StartEndgameSequence);
     }
 
     public void Construct(GameParams gameParams, GameManager gameManager,
@@ -28,15 +29,32 @@ public class EndgameManager : MonoBehaviour, IInitializable
         _saveLoadManager = saveLoadManager;
     }
 
-    private void PlayAdAndActivateAfter()
+    private void StartEndgameSequence() =>
+        StartCoroutine(PlayAdAndActivateDelayed());
+
+    private IEnumerator PlayAdAndActivateDelayed()
     {
-        AdsManager.Instance.HideBanner();
-        AdsManager.Instance.OnInterstitialEnded += Activate;
-        AdsManager.Instance.ShowInterstitial();
+        yield return new WaitForSeconds(_params.DelayBeforeAd);
+        
+        DecidePlayAdAndActivateAfter();
+    }
+
+    private void DecidePlayAdAndActivateAfter()
+    {
+        AdsManager.Instance.ShowBanner();
+
+        if (Random.Range(0f, 1f) < _params.InterstitialProbability)
+        {
+            AdsManager.Instance.OnInterstitialEnded += Activate;
+            AdsManager.Instance.ShowInterstitial();
+        }
+        else
+            Activate();
     }
 
     private void Activate()
     {
+        Debug.Log("Activate");
         AdsManager.Instance.OnInterstitialEnded -= Activate;
         AudioManager.Instance.PlayMusic(MusicType.Menu);
         

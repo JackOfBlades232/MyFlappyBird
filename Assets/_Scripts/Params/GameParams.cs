@@ -7,8 +7,18 @@ using UnityEngine.Serialization;
     order = 101)]
 public class GameParams : ScriptableObject
 {
+    [Header("Ads")]
     [SerializeField]
-    public bool _isTestAdsMode;
+    private bool _isTestAdsMode;
+
+    [SerializeField]
+    private float _interstitialProbability;
+
+    [SerializeField]
+    private float _delayBeforeAd;
+
+    [SerializeField]
+    private float _minInterstitialInterval;
 
     [Header("Bird jumping")]
     [SerializeField]
@@ -49,8 +59,12 @@ public class GameParams : ScriptableObject
     [SerializeField]
     private int _goldMedalScoreThreshold;
 
+
     public bool IsTestAdsMode => _isTestAdsMode;
-    
+    public float InterstitialProbability => _interstitialProbability;
+    public float DelayBeforeAd => _delayBeforeAd;
+    public float MinInterstitialInterval => _minInterstitialInterval;
+
     public Vector2 BirdJumpImpulse => Vector2.up * _birdJumpImpulse;
     public float BirdRotationCeil => _birdRotationCeil;
     public float BirdJumpCooldown => _birdJumpCooldown;

@@ -18,6 +18,8 @@ public class AdsManager : SingletonMono<AdsManager>,
 
     private string _gameId;
 
+    private float _nextInterstitialShowTime;
+
     public event Action OnInterstitialEnded;
 
     public void Construct(GameParams gameParams) => _params = gameParams;
@@ -28,13 +30,12 @@ public class AdsManager : SingletonMono<AdsManager>,
         
         InitializeAds();
         CreateServices();
+
+        _nextInterstitialShowTime = Time.realtimeSinceStartup +
+                                    _params.MinInterstitialInterval;
     }
 
-    public void OnInitializationComplete()
-    {
-        // TODO : remove placeholder
-        Debug.Log("Unity Ads initialization complete.");
-    }
+    public void OnInitializationComplete() { }
 
     public void OnInitializationFailed(
         UnityAdsInitializationError error, string message)
@@ -66,7 +67,18 @@ public class AdsManager : SingletonMono<AdsManager>,
         _bannerService.LoadBanner();
     }
 
-    public void ShowInterstitial() => _interstitialAdsService.ShowAd();
+    public void ShowInterstitial()
+    {
+        if (Time.realtimeSinceStartup >= _nextInterstitialShowTime)
+        {
+            _interstitialAdsService.ShowAd();
+            
+            _nextInterstitialShowTime = Time.realtimeSinceStartup +
+                                        _params.MinInterstitialInterval;
+        }
+        else
+            EndInterstitial();
+    }
 
     public void EndInterstitial() => OnInterstitialEnded?.Invoke();
 

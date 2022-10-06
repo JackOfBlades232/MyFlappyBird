@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd0ae4780dab494d9f63cdaebfddbab, type: 3}
   m_Name: GameParamsPreset
   m_EditorClassIdentifier: 
+  _isTestAdsMode: 0
+  _interstitialProbability: 0.5
+  _delayBeforeAd: 0.2
+  _minInterstitialInterval: 30
   _birdJumpImpulse: 3.6
   _birdRotationCeil: 25
   _birdJumpCooldown: 0.15

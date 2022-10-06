@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PipeSpawner : MonoBehaviour, IInitializable {
-    // TODO : Refactor this?
     [SerializeField]
     private GameObject _pipeSetPrefab, _movingFloorPrefab;
     
-    // TODO : refactor with pool
     private readonly List<PipeSet> _spawnedPipes = new();
 
     private GameParams _params;
@@ -79,7 +77,6 @@ public class PipeSpawner : MonoBehaviour, IInitializable {
 
     public void SendPipePassed()
     {
-        // TODO : refactor this to events?
         _difficultyState.OnPipePassed();
         _scoreManager.IncrementScore();
 

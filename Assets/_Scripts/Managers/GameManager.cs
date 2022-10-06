@@ -66,8 +66,6 @@ public class GameManager : MonoBehaviour, IInitializable
         Utils.Unpause();
         AudioManager.Instance.PlayMusic(MusicType.Game);
         
-        AdsManager.Instance.ShowBanner();
-        
         _player.Activate();  
     } 
 }
