@@ -41,8 +41,6 @@ public class EndgameManager : MonoBehaviour, IInitializable
 
     private void DecidePlayAdAndActivateAfter()
     {
-        AdsManager.Instance.ShowBanner();
-
         if (Random.Range(0f, 1f) < _params.InterstitialProbability)
         {
             AdsManager.Instance.OnInterstitialEnded += Activate;
@@ -54,8 +52,9 @@ public class EndgameManager : MonoBehaviour, IInitializable
 
     private void Activate()
     {
-        Debug.Log("Activate");
         AdsManager.Instance.OnInterstitialEnded -= Activate;
+        AdsManager.Instance.ShowBanner();
+        
         AudioManager.Instance.PlayMusic(MusicType.Menu);
         
         _ui.Activate();

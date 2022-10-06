@@ -1,9 +1,13 @@
-﻿using System;
+﻿#define ADS
+
+using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class AdsManager : SingletonMono<AdsManager>,
-    IUnityAdsInitializationListener
+public class AdsManager : SingletonMono<AdsManager>
+#if ADS
+    ,IUnityAdsInitializationListener
+#endif
 {
     [SerializeField]
     private string _iosGameId, _androidGameId;
@@ -35,6 +39,7 @@ public class AdsManager : SingletonMono<AdsManager>,
                                     _params.MinInterstitialInterval;
     }
 
+#if ADS
     public void OnInitializationComplete() { }
 
     public void OnInitializationFailed(
@@ -43,16 +48,19 @@ public class AdsManager : SingletonMono<AdsManager>,
         Debug.Log(
             $"Unity Ads Initialization Failed: {error.ToString()} - {message}");
     }
+#endif
 
     private void InitializeAds()
     {
-#if UNITY_IOS
+#if ADS
+  #if UNITY_IOS
         _gameId = _iosGameId;
-#else
+  #else
         _gameId = _androidGameId;
-#endif
+  #endif
 
         Advertisement.Initialize(_gameId, _params.IsTestAdsMode, Instance);
+#endif
     }
 
     private void CreateServices()

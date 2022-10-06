@@ -1,9 +1,16 @@
-﻿using UnityEngine;
-using UnityEngine.Advertisements;
+﻿#define ADS
 
-public class InterstitialAdsService : 
+#if ADS
+using UnityEngine;
+using UnityEngine.Advertisements;
+#endif
+
+public class InterstitialAdsService 
+#if ADS
+    : 
     IUnityAdsLoadListener,
     IUnityAdsShowListener
+#endif
 {
 #if UNITY_ANDROID
     private const string PlacementId = "Interstitial_Android";
@@ -16,6 +23,7 @@ public class InterstitialAdsService :
     public InterstitialAdsService(AdsManager adsManager) =>
         _adsManager = adsManager;
 
+#if ADS
     public void OnUnityAdsAdLoaded(string placementId)
     {
         
@@ -48,16 +56,21 @@ public class InterstitialAdsService :
     {
         _adsManager.EndInterstitial();
     }
+#endif
 
     public void LoadAd()
     {
+#if ADS
         Debug.Log($"Loading ad {PlacementId}");
         Advertisement.Load(PlacementId, this);
+#endif
     }
 
     public void ShowAd()
     {
+#if ADS
         Debug.Log($"Showing ad {PlacementId}");
         Advertisement.Show(PlacementId, this);
+#endif
     }
 }

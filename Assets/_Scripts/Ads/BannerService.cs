@@ -1,4 +1,6 @@
-﻿using UnityEngine.Advertisements;
+﻿#define ADS
+
+using UnityEngine.Advertisements;
 
 public class BannerService
 {
@@ -14,17 +16,22 @@ public class BannerService
     {
         _adsManager = adsManager;
 
+#if ADS
         Advertisement.Banner.SetPosition(bannerPosition);
+#endif
     }
 
+#if ADS
     private void OnBannerLoaded() { }
     private void OnBannerError(string message) { }
     private void OnBannerShown() { }
     private void OnBannerClicked() { }
     private void OnBannerHidden() { }
+#endif
 
     public void LoadBanner()
     {
+#if ADS
         BannerLoadOptions options = new BannerLoadOptions
         {
             loadCallback = OnBannerLoaded,
@@ -32,10 +39,12 @@ public class BannerService
         };
         
         Advertisement.Banner.Load(PlacementId, options);
+#endif
     }
 
     public void ShowBanner()
     {
+#if ADS
         BannerOptions options = new BannerOptions
         {
             clickCallback = OnBannerClicked,
@@ -44,7 +53,13 @@ public class BannerService
         };
         
         Advertisement.Banner.Show(PlacementId, options);
+#endif
     }
 
-    public void HideBanner() => Advertisement.Banner.Hide();
+    public void HideBanner()
+    {
+#if ADS
+        Advertisement.Banner.Hide();
+#endif
+    }
 }
